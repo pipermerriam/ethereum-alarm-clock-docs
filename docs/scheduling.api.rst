@@ -86,5 +86,96 @@ on.  Retrieved with the ``getCallScheduledBy`` function.
 * **Soldity Function Signature:** ``getCallScheduledBy(bytes32 callKey) returns (address)``
 * **ABI Signature:** ``0x8b37e656``
 
+Called at Block
+^^^^^^^^^^^^^^^
 
-TODO
+**uint calledAtBlock**
+
+The block number that this call was executed.  Retrieved with the
+``getCallCalledAtBlock`` function. Returns ``0`` if the call has not been
+executed yet.
+
+* **Soldity Function Signature:** ``getCallCalledAtBlock(bytes32 callKey) returns (uint)``
+* **ABI Signature:** ``0xe4098655``
+
+Grace Period
+^^^^^^^^^^^^
+
+**uint8 gracePeriod**
+
+The number of blocks after the ``targetBlock`` that it is still ok to execute
+this call.  Retrieved with the ``getCallGracePeriod`` function.
+
+* **Soldity Function Signature:** ``getCallGracePeriod(bytes32 callKey) returns (uint8)``
+* **ABI Signature:** ``0x34c19b93``
+
+Target Block
+^^^^^^^^^^^^
+
+**uint targetBlock**
+
+The block number that this call should be executed on.  Retrieved with the
+``getCallTargetBlock`` function.
+
+* **Soldity Function Signature:** ``getCallTargetBlock(bytes32 callKey) returns (uint)``
+* **ABI Signature:** ``0x234917d4``
+
+Base Gas Price
+^^^^^^^^^^^^^^
+
+The value of ``tx.gasprice`` that was used to schedule this function call.
+Retrieved with the ``getCallBaseGasPrice`` function. Returns ``0`` if the call
+has not been executed yet.
+
+* **Soldity Function Signature:** ``getCallBaseGasPrice(bytes32 callKey) returns (uint)``
+* **ABI Signature:** ``0x77b19cd5``
+
+Gas Price
+^^^^^^^^^
+
+The value of ``tx.gasprice`` that was used to execute this function call.
+Retrieved with the ``getCallGasPrice`` function. Returns ``0`` if the call has
+not been executed yet.
+
+* **Soldity Function Signature:** ``getCallGasPrice(bytes32 callKey) returns (uint)``
+* **ABI Signature:** ``0x78bc6460``
+
+Gas Used
+^^^^^^^^^
+
+The amount of gas that was used during execution of this function call.
+Retrieved with the ``getCallGasUsed`` function.  Returns ``0`` if the call has
+not been executed yet.
+
+* **Soldity Function Signature:** ``getCallGasUsed(bytes32 callKey) returns (uint)``
+* **ABI Signature:** ``0x86ae9e4``
+
+Signature
+^^^^^^^^^
+
+**bytes4 signature**
+
+The ABI function signature that should be used to execute this function call.
+Retrieved with the ``getCallSignature`` function.
+
+* **Soldity Function Signature:** ``getCallSignature(bytes32 callKey) returns (uint)``
+* **ABI Signature:** ``0xc88edaed``
+
+Was Called
+^^^^^^^^^^
+
+**bool wasCalled**
+
+Boolean flag for whether or not this function has been called yet.  Retrieved
+with the ``checkIfCalled`` function.
+
+* **Soldity Function Signature:** ``checkIfCalled(bytes32 callKey) returns (uint)``
+* **ABI Signature:** ``0x2a472ae8``
+
+
+
+function checkIfSuccess(bytes32 callKey) public returns (bool) {
+function checkIfCancelled(bytes32 callKey) public returns (bool) {
+function getCallDataHash(bytes32 callKey) public returns (bytes32) {
+function getCallPayout(bytes32 callKey) public returns (uint) {
+function getCallFee(bytes32 callKey) public returns (uint) {
