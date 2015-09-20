@@ -98,6 +98,8 @@ becoming active.
 Once the queued pool becomes active, members are once again allowed to enter
 and exit the pool.
 
+Each time a new pool is created, the ordering of its members is shuffled.
+
 .. note::
     It is worth pointing out that from the block during which you exit the
     pool, you must still execute the calls that are allocated to you for the

@@ -94,8 +94,8 @@ as the call referenced by the provided ``callKey``.  Returns ``0x0`` if there
 are no subsequent calls on the same block.
 
 
-Determining if you execute a call
----------------------------------
+Designated Callers
+------------------
 
 If the Caller Pool has any bonded callers in the current active pool, then only
 designated callers will be allowed to execute a scheduled call.  The exception
@@ -106,8 +106,8 @@ If there are no bonded callers in the Caller Pool then the Alarm service will
 operate in *free-for-all* mode for all calls meaning anyone may execute any
 call at any block during the call window.
 
-How callers are assigned
-^^^^^^^^^^^^^^^^^^^^^^^^
+How callers designated
+^^^^^^^^^^^^^^^^^^^^^^
 
 Each call has a window during which it is allowed to be executed.  This window
 begins at the specified ``targetBlock`` and extends through ``targetBlock +
