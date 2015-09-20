@@ -5,9 +5,9 @@ The *scheduler pays* system requires that payment for scheduled calls be
 provided prior to the execution of the call, so that the sender of the
 executing transaction can immediately be reimbursed for the gas costs.
 
-The account and associated funds for each ethereum address are used to pay for
-the calls scheduled by that address.  Inturn, each ethereum address may
-withdraw or deposit funds in its account at any time with no restrictions.
+The account and associated funds are used to pay for any calls scheduled by
+that address.  Inturn, each ethereum address may withdraw or deposit funds in
+its account at any time with no restrictions.
 
 It is also possible to deposit funds in the account of another address.  You
 cannot however withdraw funds from any address other than your own.
@@ -35,6 +35,13 @@ The simplest way to add funds to your account is to just send the ether to the
 address of the alarm service.  Any funds sent to the alarm service are added to
 the account balance of the sender.
 
+.. warning::
+
+    Contracts cannot add funds to their accounts this way using the ``send``
+    function on addresses.  This is due to solidity's protection against
+    unbounded gas use in contract fallback functions.  See below for how
+    contracts can add their own funds.
+
 Here is how you would do this from the geth javascript console.
 
 .. code-block::
@@ -58,7 +65,7 @@ function and sending the desired deposit value with the transaction.
 Sending from a contract
 ^^^^^^^^^^^^^^^^^^^^^^^
 
-Contracts can deposit funds through these mechanisms.
+Contracts can deposit funds through these mechanisms as well.
 
 .. code-block::
 
@@ -87,6 +94,7 @@ address.
     on the Alarm service requires a bit more gas so that it can record the increase
     in account balance.
 
+
 Withdrawing funds
 -----------------
 
@@ -96,5 +104,5 @@ is done by calling the ``withdraw`` function on the Alarm service.
 * **Soldity Function Signature:** ``withdraw(uint value)``
 * **ABI Signature:** ``2e1a7d4d``
 
-If the account has a balance sufficient to fulfill the request, the amount
-specified will be sent to the address who sent the transaction.
+If the account has a balance sufficient to fulfill the request, the amount specified
+specified in wei will be transferred to ``msg.sender``.

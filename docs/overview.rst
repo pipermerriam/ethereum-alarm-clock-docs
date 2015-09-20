@@ -1,18 +1,19 @@
 Overview
 ========
 
-The Ethereum Alarm service is a DApp or contract on the ethereum network.  It
-is designed to require little or no trust between any of the users of the
-service, as well as providing no special access to the creators of the
+The Ethereum Alarm service is a contract on the ethereum network that
+facilitates scheduling of function calls for a specified block in the future.
+It is designed to require little or no trust between any of the users of the
+service, as well as providing no special access to the creator of the
 contract.
 
 Scheduling Function Calls
 -------------------------
 
 When a contract, or individual wants to schedule a function call with the Alarm
-Service it will perform the following steps.
+service it will perform the following steps.
 
-1. Ensure that the account that will schedule the call has a sufficient balance
+1. Ensure that the account that is scheduling the call has a sufficient balance
    to pay for the scheduled call.
 2. Register any call data that will be required to make the function call.
 3. Schedule the function call with the service.
@@ -30,8 +31,7 @@ form of an account balance.
 The Alarm service maintains accounts for each address on the network.  These
 accounts can have ether deposited and withdrawn at any time.  However, at the
 time the call is executed, if the scheduler's account does not have enough
-funds to pay for 102% of the maximum possible transaction cost for the block
-the call is executed on, the call will be skipped.
+funds to pay for the execution of the scheduled call, it will be skipped.
 
 Registering Call Data
 ^^^^^^^^^^^^^^^^^^^^^
@@ -44,6 +44,7 @@ To do this, any data that needs to be used in the call must be registered prior
 to scheduling the call.  Call data only needs to be registered once, and can be
 re-used for subsequent function calls.
 
+
 Call Scheduling
 ^^^^^^^^^^^^^^^
 
@@ -55,8 +56,12 @@ following information:
 2. ABI signature of the function that should be called.
 3. SHA3 hash of the call data that should be included in the function call.
 4. Target block number that the call should be executed on.
+5. Number of blocks after the target block during which it still ok to execute
+   the call.
+6. A nonce to allow differentiation between identical calls that are scheduled
+   for the same block.
 
-Once scheduled, the call should be picked up and executed at the desired block.
+Once scheduled, the call waits to be picked up and executed at the desired block.
 
 
 Execution of scheduled calls
@@ -67,19 +72,16 @@ initiate the transaction.  This will likely be an automated process that
 monitors for upcoming scheduled calls and executes them at the appropriate
 block.
 
+
 Usage Fees
 ^^^^^^^^^^
 
-A scheduled function call costs 102% of the total gas expenditure for the
-transaction in which it was executed.
+A scheduled function call costs approximately 102% of the total gas expenditure
+for the transaction in which it was executed.
 
-In return for executing the function call at the appropriate block, the sender
-of the transaction is reimbursed the 101% of gas cost of the transaction
-(earning them 1% of the transaction gas cost).
-
-In addition to the 1% sent to the sender of the transaction, an additional 1%
-fee is sent to the *owner* of the contract.  This is payment to the author of
-this service for the many many hours spent creating it.
+The additional 2% is split evenly between paying the account which executed the
+function call and the creator of the Alarm service for the many many hours
+spent creating it.
 
 Guarantees
 ----------
@@ -88,7 +90,7 @@ Will the call happen?
 ^^^^^^^^^^^^^^^^^^^^^
 
 There are no guarantees that your function will be called.  The design of this
-service is meant to provide the proper motivation for all involved parties, but
+service is meant to provide the proper motivation for calls to be executed, but
 it is entirely possible that certain calls will be missed due to unforseen
 circumstances.
 

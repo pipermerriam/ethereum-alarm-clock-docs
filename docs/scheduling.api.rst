@@ -123,6 +123,8 @@ The block number that this call should be executed on.  Retrieved with the
 Base Gas Price
 ^^^^^^^^^^^^^^
 
+**uint baseGasPrice**
+
 The value of ``tx.gasprice`` that was used to schedule this function call.
 Retrieved with the ``getCallBaseGasPrice`` function. Returns ``0`` if the call
 has not been executed yet.
@@ -133,6 +135,8 @@ has not been executed yet.
 Gas Price
 ^^^^^^^^^
 
+**uint gasPrice**
+
 The value of ``tx.gasprice`` that was used to execute this function call.
 Retrieved with the ``getCallGasPrice`` function. Returns ``0`` if the call has
 not been executed yet.
@@ -142,6 +146,8 @@ not been executed yet.
 
 Gas Used
 ^^^^^^^^^
+
+**uint gasUsed**
 
 The amount of gas that was used during execution of this function call.
 Retrieved with the ``getCallGasUsed`` function.  Returns ``0`` if the call has
@@ -169,13 +175,73 @@ Was Called
 Boolean flag for whether or not this function has been called yet.  Retrieved
 with the ``checkIfCalled`` function.
 
-* **Soldity Function Signature:** ``checkIfCalled(bytes32 callKey) returns (uint)``
+* **Soldity Function Signature:** ``checkIfCalled(bytes32 callKey) returns (bool)``
 * **ABI Signature:** ``0x2a472ae8``
 
+Was Successful
+^^^^^^^^^^^^^^
 
+**bool wasSuccessful**
 
-function checkIfSuccess(bytes32 callKey) public returns (bool) {
-function checkIfCancelled(bytes32 callKey) public returns (bool) {
-function getCallDataHash(bytes32 callKey) public returns (bytes32) {
-function getCallPayout(bytes32 callKey) public returns (uint) {
-function getCallFee(bytes32 callKey) public returns (uint) {
+Boolean flag for whether or not this function call was successful when
+executed.  Retrieved with the ``checkIfSuccess`` function.
+
+* **Soldity Function Signature:** ``checkIfSuccess(bytes32 callKey) returns (bool)``
+* **ABI Signature:** ``0x6ffc0896``
+
+Is Cancelled
+^^^^^^^^^^^^
+
+**bool isCancelled**
+
+Boolean flag for whether or not this function call was cancelled.  Retrieved
+with the ``checkIfCancelled`` function.
+
+* **Soldity Function Signature:** ``checkIfCancelled(bytes32 callKey) returns (bool)``
+* **ABI Signature:** ``0xaa4cc01f``
+
+Call Data Hash
+^^^^^^^^^^^^^^
+
+**bytes32 dataHash**
+
+The sha3 hash of the call data that will be used for this function call.  Retrieved
+with the ``getCallDataHash`` function.
+
+* **Soldity Function Signature:** ``getCallDataHash(bytes32 callKey) returns (bytes32)``
+* **ABI Signature:** ``0xf9f447eb``
+
+Call Data
+^^^^^^^^^
+
+**bytes data**
+
+The full call data that will be used for this function call.  Retrieved
+with the ``getCallData`` function.
+
+* **Soldity Function Signature:** ``getCallData(bytes32 callKey) returns (bytes)``
+* **ABI Signature:** ``0x75428615``
+
+Payout
+^^^^^^
+
+**uint payout**
+
+The amount in wei that was paid to the account that executed this function
+call.  Retrieved with the ``getCallPayout`` function.  If the function has not
+been executed this will return ``0``.
+
+* **Soldity Function Signature:** ``getCallPayout(bytes32 callKey) returns (uint)``
+* **ABI Signature:** ``0xa9743c68``
+
+Fee
+^^^
+
+**uint fee**
+
+The amount in wei that was paid to the creator of the Alarm service.
+Retrieved with the ``getCallFee`` function.  If the function has not
+been executed this will return ``0``.
+
+* **Soldity Function Signature:** ``getCallFee(bytes32 callKey) returns (uint)``
+* **ABI Signature:** ``0xfc300522``

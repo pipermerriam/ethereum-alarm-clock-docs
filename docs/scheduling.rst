@@ -8,8 +8,8 @@ Registering Call Data
 ---------------------
 
 If a function call requires arguments, then prior to scheduling the call, the
-call data for those arguments must be registered first.  This is done with the
-``registerData`` function on the Alarm service.
+call data for those arguments must be registered.  This is done with the
+``registerData`` function.
 
 * **Soldity Function Signature:** ``registerData()``
 * **ABI Signature:** ``0xb0f07e44``
@@ -17,7 +17,8 @@ call data for those arguments must be registered first.  This is done with the
 It may be confusing at first to see that this function does not take any
 arguments, yet it is responsible for recording the call data for a future
 function call.  Internally, the ``registerData`` function pulls the call data
-off of ``msg.data``.
+off of ``msg.data``, effectively allowing any number and type of arguments to
+be passed to it (like the sha3 function).
 
 In solidity, this would look something like the following.
 
@@ -39,31 +40,58 @@ call data.
 Call data only ever needs to be registered once after which it can be used
 without needing to re-register it.
 
+The ``registerData`` function cannot be used via an abstract contract in
+solidity, as solidity has not mechanism to allow for variadic arguments in a
+function call.  You can however, simplify some of your contract code with a
+local alias on your contract that handles the ``call`` logic for you.
+
+.. code-block::
+
+    contract Example {
+        address alarm = 0x...;
+
+        function registerData(uint arg1, int arg2, bytes arg3) public {
+            // 0xb0f07e44 == bytes4(sha3("registerData()"))
+            alarm.call(0xb0f07e44, arg1, arg2, arg3);
+        }
+
+        function scheduleIt() {
+            registerData(1234, -1234, "some freeform text");
+            ... // do remaining scheduling.
+        }
+    }
+
+You can implement as many local ``registerData`` functions as you need with
+each argument pattern that you need to schedule data for, allowing for simple
+data registration.
+
 
 Scheduling the Call
 -------------------
 
-.. note::
-
-    Prior to scheduling a function call, any call data necessary for the call must
-    have already been registered.
-
 Function calls are scheduled with the ``scheduleCall`` function on the Alarm
 service.
 
-* **Soldity Function Signature:** ``scheduleCall(address contractAddress, bytes4 signature, bytes32 dataHash, uint targetBlock, uint8 gracePeriod, uint nonce) public returns (bytes32);``
+* **Soldity Function Signature:** ``scheduleCall(address contractAddress, bytes4 signature, bytes32 dataHash, uint targetBlock, uint8 gracePeriod, uint nonce);``
 * **ABI Signature:** ``0x52afbc33``
 
 The ``scheduleCall`` function takes the following parameters:
 
-* **address targetBlock:** The contract address that the function should be called on.
-* **bytes4 signature:** The 4 byte ABI function signature for the call.
+* **address contractAddress:** The contract address that the function should be
+  called on.
+* **bytes4 abiSignature:** The 4 byte ABI function signature for the call.
 * **bytes32 dataHash:** The ``sha3`` hash of the call data for the call.
 * **uint targetBlock:** The block number the call should be executed on.
 * **uint8 gracePeriod:** The number of blocks after ``targetBlock`` that it is
   ok to still execute this call.
 * **uint nonce:** Number to allow for differentiating a call from another one
   which has the exact same information for all other user specified fields.
+
+.. note::
+
+    Prior to scheduling a function call, any call data necessary for the call must
+    have already been registered.
+
 
 Contract scheduling its own call
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -76,6 +104,10 @@ Contracts can take care of their own call scheduling.
         address alarm; // set by some other mechanism.
 
         function beginLottery() public {
+            ... // Do whatever setup needs to take place.
+
+            // Now we schedule the picking of the winner.
+
             bytes4 sig = bytes4(sha3("pickWinner()"));
             // `pickWinner()` takes no arguments so we send an empty sha3 hash.
             bytes32 dataHash = sha3();
@@ -100,8 +132,7 @@ is called, a call to the ``pickWinner`` function is scheduled for approximately
 Scheduling a call for a contract
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Alternatively, calls can be scheduled by one address to be executed on another
-address.
+Alternatively, calls can be scheduled to be executed on other contracts
 
 .. note::
 
@@ -124,9 +155,9 @@ contract of some sort.
     > web3.sendTransaction({to: alarm.address, data: 'b0f07e44' + callData, from: eth.coinbase})
     // Now schedule the call
     > dataHash = eth.sha3(callData)
-    > sig = ... // the 4-byte ABI function signature for the wallet function that transfers funds.
+    > signature = ... // the 4-byte ABI function signature for the wallet function that transfers funds.
     > targetBlock = eth.getBlock('latest') + 100  // 100 blocks in the future.
-    > alarm.scheduleCall.sendTransaction(walletAddress, sig, dataHash, targetBlock, 255, 0, {from: eth.coinbase})
+    > alarm.scheduleCall.sendTransaction(walletAddress, signature, dataHash, targetBlock, 255, 0, {from: eth.coinbase})
 
 There is a lot going on in this example so lets look at it line by line.
 
@@ -148,7 +179,7 @@ There is a lot going on in this example so lets look at it line by line.
     Here we compute the ``sha3`` hash of the call data we will want sent with
     the scheduled call.
 
-4. ``sig = ...``
+4. ``signature = ...``
 
     We also need to tell the Alarm service the 4 byte function signature it
     should use for the scheduled call.  Assuming our wallet's transfer function
@@ -158,7 +189,9 @@ There is a lot going on in this example so lets look at it line by line.
 
 5. ``targetBlock = eth.getBlock('latest') + 100``
 
-6. ``alarm.scheduleCall.sendTransaction(walletAddress, sig, dataHash, targetBlock, 255, {from: eth.coinbase})``
+    Schedule the call for 100 blocks in the future.
+
+6. ``alarm.scheduleCall.sendTransaction(walletAddress, signature, dataHash, targetBlock, 255, 0, {from: eth.coinbase})``
 
     This is the actual line that schedules the function call.  We send a
     transaction using the ``scheduleCall`` function on the Alarm contract

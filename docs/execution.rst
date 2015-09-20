@@ -1,11 +1,12 @@
 Call Execution
 ==============
 
-Call execution is the process through which the scheduled calls are executed at
-the desired block number.  After a call has been scheduled, it can be executed
+Call execution is the process through which scheduled calls are executed at
+their desired block number.  After a call has been scheduled, it can be executed
 by account which chooses to initiate the transaction.  In exchange for
 executing the scheduled call, they are paid a small fee of approximately 1% of
 the gas cost used for executing the transaction.
+
 
 Executing a call
 ----------------
@@ -91,6 +92,84 @@ getNextCallSibling
 Returns the call key for the next scheduled call that occurs on the same block
 as the call referenced by the provided ``callKey``.  Returns ``0x0`` if there
 are no subsequent calls on the same block.
+
+
+Determining if you execute a call
+---------------------------------
+
+If the Caller Pool has any bonded callers in the current active pool, then only
+designated callers will be allowed to execute a scheduled call.  The exception
+to this restriction is the last few blocks within the call's grace period which
+the call enters *free-for-all* mode during which anyone may execute it.
+
+If there are no bonded callers in the Caller Pool then the Alarm service will
+operate in *free-for-all* mode for all calls meaning anyone may execute any
+call at any block during the call window.
+
+How callers are assigned
+^^^^^^^^^^^^^^^^^^^^^^^^
+
+Each call has a window during which it is allowed to be executed.  This window
+begins at the specified ``targetBlock`` and extends through ``targetBlock +
+gracePeriod``.   This window is inclusive of it's bounding blocks.
+
+For each 4 block section of the call window, the caller pool associated with
+the ``targetBlock`` is selected.  The members of the pool can be though of as a
+circular queue, meaning that when you iterate through them, when you reach the
+last member, you start back over at the first member.  For each call, a random
+starting position is selected and the 4 block sections of the call window are
+assigned to the membes of the call pool.
+
+The last two 4 block sections (5-8 blocks depending on the gracePeriod) are not
+allocated, but are considered *free-for-all* allowing anyone to call.
+
+Use the ``getDesignatedCaller`` function to determine which caller from the
+caller pool has been designated for the block.
+
+* **Soldity Function Signature:** ``getDesignatedCaller(bytes32 callKey, uint targetBlock, uint8 gracePeriod, uint blockNumber) public returns (address)``
+* **ABI Signature:** ``0xe8543d0d``
+
+* **callKey:** specifies the scheduled call.
+* **targetBlock:** the target block for the specified call.
+* **gracePeriod:** the grace period for the specified call.
+* **blockNumber:** the block number (during the call window) in question.
+
+This returns the address of the caller who is designated for this block, or
+``0x0`` if this call can be executed by anyone on the specified block.
+
+Missing the call window
+^^^^^^^^^^^^^^^^^^^^^^^
+
+Anytime a caller fails to execute a scheduled call during the 4 block window
+reserved for them, the next caller has the opportunity to claim a portion of
+their bond merely by executing the call during their window.  When this
+happens, the previous caller who missed their call window has the current
+minimum bond amount deducted from their bond balance and transferred to the
+caller who executed the call.  The caller who missed their call is also removed
+from the pool.  This removal takes 512 blocks to take place as it occurs within
+the same mechanism as if they removed themselves from the pool.
+
+Free For All
+^^^^^^^^^^^^
+
+When a call enters the last two 4-block chunks of its call window it enters
+free-for-all mode.  During these blocks anyone, even unbonded callers, can
+execute the call.  The sender of the executing transaction will be rewarded the
+bond bonus from all callers who missed their call window.
+
+
+Safeguards
+----------
+
+There are a limited set of safeguards that Alarm protects those executing calls
+from.
+
+* Enforces the ability to pay for the maximum possible transaction cost up
+  front.
+* Ensures that the call cannot cause the executing transaction to fail due to
+  running out of gas (like an infinite loop).
+* Ensures that the funds to be used for payment are locked during the call
+  execution.
 
 Tips for executing scheduled calls
 ----------------------------------
