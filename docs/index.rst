@@ -20,8 +20,10 @@ Contents:
    accounts
    authorization
    scheduling
+   pool
    execution
    costs_and_fees
    abi
+   pool.api
    scheduling.api
    :maxdepth: 2

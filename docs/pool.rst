@@ -65,8 +65,8 @@ ether.
 * **Soldity Function Signature:** ``withdrawBond()``
 * **ABI Signature:** ``0xc3daab96``
 
-Bond funds are locked and cannot be withdrawn while a caller is in either the
-current active pool or the queued pool.
+If you are currently in a call pool, either active or queued, you will not be
+able to withdraw your account balance below the minimum bond amount.
 
 
 Bond Forfeiture
