@@ -117,8 +117,9 @@ For each 4 block section of the call window, the caller pool associated with
 the ``targetBlock`` is selected.  The members of the pool can be though of as a
 circular queue, meaning that when you iterate through them, when you reach the
 last member, you start back over at the first member.  For each call, a random
-starting position is selected and the 4 block sections of the call window are
-assigned to the membes of the call pool.
+starting position is selected in the member queue and the 4 block sections of
+the call window are assigned in order to the membes of the call pool beginning
+at this randomly chosen index..
 
 The last two 4 block sections (5-8 blocks depending on the gracePeriod) are not
 allocated, but are considered *free-for-all* allowing anyone to call.
