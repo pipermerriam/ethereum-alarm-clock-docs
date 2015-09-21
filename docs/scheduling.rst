@@ -11,7 +11,7 @@ If a function call requires arguments, then prior to scheduling the call, the
 call data for those arguments must be registered.  This is done with the
 ``registerData`` function.
 
-* **Soldity Function Signature:** ``registerData()``
+* **Solidity Function Signature:** ``registerData()``
 * **ABI Signature:** ``0xb0f07e44``
 
 It may be confusing at first to see that this function does not take any
@@ -72,7 +72,7 @@ Scheduling the Call
 Function calls are scheduled with the ``scheduleCall`` function on the Alarm
 service.
 
-* **Soldity Function Signature:** ``scheduleCall(address contractAddress, bytes4 signature, bytes32 dataHash, uint targetBlock, uint8 gracePeriod, uint nonce);``
+* **Solidity Function Signature:** ``scheduleCall(address contractAddress, bytes4 signature, bytes32 dataHash, uint targetBlock, uint8 gracePeriod, uint nonce);``
 * **ABI Signature:** ``0x52afbc33``
 
 The ``scheduleCall`` function takes the following parameters:
@@ -210,5 +210,5 @@ A scheduled call can be cancelled by its scheduler up to 4 blocks (2 minutes)
 before it's target block.  To cancel a scheduled call use the ``cancelCall``
 function.
 
-* **Soldity Function Signature:** ``cancelCall(bytes32 callKey)``
+* **Solidity Function Signature:** ``cancelCall(bytes32 callKey)``
 * **ABI Signature:** ``0x60b831e5``

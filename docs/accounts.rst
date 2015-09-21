@@ -18,7 +18,7 @@ Checking account balance
 Your account balance can be checked by accessing the public mapping of accounts
 to balances.
 
-* **Soldity Function Signature:** ``accountBalances(address accountAddress) returns (uint)``
+* **Solidity Function Signature:** ``accountBalances(address accountAddress) returns (uint)``
 * **ABI Signature:** ``0x6ff96d17``
 
 Calling this function will return the balance in wei for the provided address.
@@ -58,7 +58,7 @@ By using the deposit function
 Funds can also be deposited in a specific account by calling the ``deposit``
 function and sending the desired deposit value with the transaction.
 
-* **Soldity Function Signature:** ``deposit(address accountAddress)``
+* **Solidity Function Signature:** ``deposit(address accountAddress)``
 * **ABI Signature:** ``0xf340fa01``
 
 
@@ -101,7 +101,7 @@ Withdrawing funds
 Withdrawing funds is restricted to the address they are associated with.  This
 is done by calling the ``withdraw`` function on the Alarm service.
 
-* **Soldity Function Signature:** ``withdraw(uint value)``
+* **Solidity Function Signature:** ``withdraw(uint value)``
 * **ABI Signature:** ``2e1a7d4d``
 
 If the account has a balance sufficient to fulfill the request, the amount specified

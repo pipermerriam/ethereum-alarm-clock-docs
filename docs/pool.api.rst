@@ -15,7 +15,7 @@ Get Minimum Bond
 Use the ``getMinimumBond`` function to retrieve the current minimum bond value
 required to be able to enter the caller pool.
 
-* **Soldity Function Signature:** ``getMinimumBond() returns (uint)``
+* **Solidity Function Signature:** ``getMinimumBond() returns (uint)``
 * **ABI Signature:** ``0x23306ed6``
 
 Check Bond Balance
@@ -24,7 +24,7 @@ Check Bond Balance
 Use the ``callerBonds`` function to check the bond balance for the provided
 address.
 
-* **Soldity Function Signature:** ``callerBonds(address callerAddress) returns (uint)``
+* **Solidity Function Signature:** ``callerBonds(address callerAddress) returns (uint)``
 * **ABI Signature:** ``0xc861cd66``
 
 Deposit Bond
@@ -32,7 +32,7 @@ Deposit Bond
 
 Use the ``depositBond`` function to deposit you bond with the caller pool.
 
-* **Soldity Function Signature:** ``depositBond()``
+* **Solidity Function Signature:** ``depositBond()``
 * **ABI Signature:** ``0x741b3c39``
 
 Withdraw Bond
@@ -40,7 +40,7 @@ Withdraw Bond
 
 Use the ``withdrawBond`` function to withdraw funds from your bond.
 
-* **Soldity Function Signature:** ``withdrawBond()``
+* **Solidity Function Signature:** ``withdrawBond()``
 * **ABI Signature:** ``0xc3daab96``
 
 When in either an active or queued caller pool, you cannot withdraw your
@@ -57,7 +57,7 @@ Get Designated Caller
 Use the ``getDesignatedCaller`` function to retrieve which caller address, if
 any, is designated as the caller for a given block and scheduled call.
 
-* **Soldity Function Signature:** ``getDesignatedCaller(bytes32 callKey, uint targetBlock, uint8 gracePeriod, uint blockNumber) public returns (address)``
+* **Solidity Function Signature:** ``getDesignatedCaller(bytes32 callKey, uint targetBlock, uint8 gracePeriod, uint blockNumber) public returns (address)``
 * **ABI Signature:** ``0xe8543d0d``
 
 * **callKey:** specifies the scheduled call.

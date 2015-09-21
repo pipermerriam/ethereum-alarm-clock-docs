@@ -13,7 +13,7 @@ Executing a call
 
 Use the ``doCall`` function to execute a scheduled call.
 
-* **Soldity Function Signature:** ``doCall(bytes32 callKey)``
+* **Solidity Function Signature:** ``doCall(bytes32 callKey)``
 * **ABI Signature:** ``0xfcf36918``
 
 When this function is called, the following things happen.
@@ -66,7 +66,7 @@ allow querying for calls in order.
 getNextBlockWithCall
 ^^^^^^^^^^^^^^^^^^^^
 
-* **Soldity Function Signature:** ``getNextBlockWithCall(uint blockNumber) returns (uint)``
+* **Solidity Function Signature:** ``getNextBlockWithCall(uint blockNumber) returns (uint)``
 * **ABI Signature:** ``0xe19eb0dd``
 
 Returns the next block number for the next scheduled call on or after the
@@ -76,7 +76,7 @@ provided ``blockNumber``.  If there are no scheduled calls on or after
 getNextCallKey
 ^^^^^^^^^^^^^^
 
-* **Soldity Function Signature:** ``getNextCallKey(uint blockNumber) returns (bytes32)``
+* **Solidity Function Signature:** ``getNextCallKey(uint blockNumber) returns (bytes32)``
 * **ABI Signature:** ``0xaa6704da``
 
 Returns the call key for the next scheduled call on or after the provided
@@ -86,7 +86,7 @@ it returns ``0x0``;
 getNextCallSibling
 ^^^^^^^^^^^^^^^^^^
 
-* **Soldity Function Signature:** ``getNextCallSibling(bytes32 callKey) returns (bytes32)``
+* **Solidity Function Signature:** ``getNextCallSibling(bytes32 callKey) returns (bytes32)``
 * **ABI Signature:** ``0x22bc71f``
 
 Returns the call key for the next scheduled call that occurs on the same block
@@ -126,7 +126,7 @@ allocated, but are considered *free-for-all* allowing anyone to call.
 Use the ``getDesignatedCaller`` function to determine which caller from the
 caller pool has been designated for the block.
 
-* **Soldity Function Signature:** ``getDesignatedCaller(bytes32 callKey, uint targetBlock, uint8 gracePeriod, uint blockNumber) public returns (address)``
+* **Solidity Function Signature:** ``getDesignatedCaller(bytes32 callKey, uint targetBlock, uint8 gracePeriod, uint blockNumber) public returns (address)``
 * **ABI Signature:** ``0xe8543d0d``
 
 * **callKey:** specifies the scheduled call.

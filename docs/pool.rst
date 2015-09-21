@@ -13,7 +13,7 @@ by the Alarm service contract during creation.  The address of this contract
 can be retrieved with the ``getCallerPoolAddress`` function on the Alarm
 service.
 
-* **Soldity Function Signature:** ``getCallerPoolAddress() returns (address)``
+* **Solidity Function Signature:** ``getCallerPoolAddress() returns (address)``
 * **ABI Signature:** ``0x662fc8a0``
 
 This returns the appropriate address to use for interacting with the Caller
@@ -32,7 +32,7 @@ Minimum Bond
 The bond amount is set as the maximum allowed transaction cost for a given
 block.  This value can be retrieved with the ``getMinimumBond`` function.
 
-* **Soldity Function Signature:** ``getMinimumBond() returns (uint)``
+* **Solidity Function Signature:** ``getMinimumBond() returns (uint)``
 * **ABI Signature:** ``0x23306ed6``
 
 This value can change from block to block depending on the gas price and gas
@@ -44,7 +44,7 @@ Depositing your bond
 Use the ``depositBond`` function on the Caller Pool to deposit ether towards
 your bond.
 
-* **Soldity Function Signature:** ``depositBond()``
+* **Solidity Function Signature:** ``depositBond()``
 * **ABI Signature:** ``0x741b3c39``
 
 Checking bond balance
@@ -52,7 +52,7 @@ Checking bond balance
 
 Use the ``callerBonds`` function to check the balance of your bond.
 
-* **Soldity Function Signature:** ``callerBonds(address) returns (uint)``
+* **Solidity Function Signature:** ``callerBonds(address) returns (uint)``
 * **ABI Signature:** ``0xc861cd66``
 
 
@@ -62,7 +62,7 @@ Withdrawing your bond
 Use the ``withdrawBond`` function on the Caller Pool to withdraw the bond
 ether.
 
-* **Soldity Function Signature:** ``withdrawBond()``
+* **Solidity Function Signature:** ``withdrawBond()``
 * **ABI Signature:** ``0xc3daab96``
 
 If you are currently in a call pool, either active or queued, you will not be
@@ -119,7 +119,7 @@ An address can enter the caller pool if the following conditions are met.
 
 To enter the pool, call the ``enterPool`` function on the Caller Pool.
 
-* **Soldity Function Signature:** ``enterPool()``
+* **Solidity Function Signature:** ``enterPool()``
 * **ABI Signature:** ``0x50a3bd39``
 
 If the appropriate conditions are met, you will be added to the next caller
@@ -129,7 +129,7 @@ Otherwise you will be added to the next queued pool.
 You can use the ``canEnterPool`` function to check whether a given address is
 currently allowed to enter the pool.
 
-* **Soldity Function Signature:** ``canEnterPool(address callerAddress) returns (bool)``
+* **Solidity Function Signature:** ``canEnterPool(address callerAddress) returns (bool)``
 * **ABI Signature:** ``0x8dd5e298``
 
 
@@ -145,7 +145,7 @@ An address can exit the caller pool if the following conditions are met.
 
 To exit the pool, use the ``exitPool`` function on the Caller Pool.
 
-* **Soldity Function Signature:** ``exitPool()``
+* **Solidity Function Signature:** ``exitPool()``
 * **ABI Signature:** ``0x50a3bd39``
 
 If all conditions are met, a new caller pool will be queued if one has not
@@ -154,5 +154,5 @@ already been created and your address will be removed from it.
 You can use the ``canExitPool`` function to check whether a given address is
 currently allowed to exit the pool.
 
-* **Soldity Function Signature:** ``canExitPool(address callerAddress) returns (bool)``
+* **Solidity Function Signature:** ``canExitPool(address callerAddress) returns (bool)``
 * **ABI Signature:** ``0xb010d94a``

@@ -34,13 +34,13 @@ differentiate between **authorized** and **unauthorized** calls.
 **authorized** calls will orignate from the address returned by
 the ``authorizedAddress`` function.
 
-* **Soldity Function Signature:** ``authorizedAddress() returns (address)``
+* **Solidity Function Signature:** ``authorizedAddress() returns (address)``
 * **ABI Signature:** ``0x5539d400``
 
 **unauthorized** calls will orignate from the address returned by
 the ``unauthorizedAddress`` function.
 
-* **Soldity Function Signature:** ``unauthorizedAddress() returns (address)``
+* **Solidity Function Signature:** ``unauthorizedAddress() returns (address)``
 * **ABI Signature:** ``0x94d2b21b``
 
 
@@ -98,7 +98,7 @@ Granting Authorization
 
 Authorization is granted with the ``addAuthorization`` function.
 
-* **Soldity Function Signature:** ``addAuthorization(address schedulerAddress)``
+* **Solidity Function Signature:** ``addAuthorization(address schedulerAddress)``
 * **ABI Signature:** ``0x35b28153``
 
 This function adds the ``schedulerAddress`` address to the authorized addresses
@@ -125,7 +125,7 @@ Checking Access
 You can check whether an address has authorization to schedule calls for a
 given address with the ``checkAuthorization`` function.
 
-* **Soldity Function Signature:** ``checkAuthorization(address schedulerAddress, address contractAddress) returns (bool)``
+* **Solidity Function Signature:** ``checkAuthorization(address schedulerAddress, address contractAddress) returns (bool)``
 * **ABI Signature:** ``0x685c234a``
 
 
@@ -135,7 +135,7 @@ Removing Authorization
 A contract can remove authorization from a given address using the
 ``removeAuthorization`` function.
 
-* **Soldity Function Signature:** ``removeAuthorization(address schedulerAddress)``
+* **Solidity Function Signature:** ``removeAuthorization(address schedulerAddress)``
 * **ABI Signature:** ``0x94f3f81d``
 
 .. code-block:: solidity
