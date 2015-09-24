@@ -26,4 +26,5 @@ Contents:
    abi
    pool.api
    scheduling.api
+   changelog
    :maxdepth: 2
