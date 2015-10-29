@@ -111,7 +111,7 @@ How callers designated
 
 Each call has a window during which it is allowed to be executed.  This window
 begins at the specified ``targetBlock`` and extends through ``targetBlock +
-gracePeriod``.   This window is inclusive of it's bounding blocks.
+gracePeriod``.   This window is inclusive of its bounding blocks.
 
 For each 4 block section of the call window, the caller pool associated with
 the ``targetBlock`` is selected.  The members of the pool can be though of as a
